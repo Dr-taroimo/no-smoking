@@ -67,11 +67,23 @@ body {
   max-width: 100%;
   width: 100%;
   padding: clamp(1rem, 4vw, 1.5rem);
+  padding-bottom: calc(clamp(1rem, 4vw, 1.5rem) + 56px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+/* ----- 画面切り替え（SPA） ----- */
+.screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+}
+
+.screen.screen-active {
+  display: flex;
 }
 
 /* ----- ヘッダー ----- */
@@ -146,6 +158,48 @@ body {
   font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
+}
+
+/* ----- 目標禁煙日数（入力画面） ----- */
+.target-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 5vw, 1.5rem);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.target-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
+}
+
+/* ----- 目標まであと〇〇日（表示画面） ----- */
+.target-left-wrap {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.target-left-wrap.hidden {
+  display: none;
+}
+
+.target-left-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.target-left-days {
+  font-size: clamp(1.5rem, 5vw, 1.75rem);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
 }
 
 /* ----- 節約額表示 ----- */
@@ -224,6 +278,17 @@ body {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* 数値の上下矢印を非表示にしてフリックで自由入力 */
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.price-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 @media (max-width: 480px) {
@@ -317,6 +382,68 @@ body {
   font-size: 0.8rem;
   color: var(--text-muted);
   line-height: 1.45;
+}
+
+/* ----- 各カード外の「設定する」ボタン ----- */
+.card-actions {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-actions .btn-set {
+  width: 100%;
+}
+
+.card-actions .hint {
+  margin-top: 0.35rem;
+  min-height: 1.2em;
+}
+
+.card-actions-single {
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* ----- 下部タブ ----- */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding-bottom: var(--safe-bottom);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-item {
+  flex: 1;
+  min-height: 52px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.tab-item:hover {
+  color: var(--text);
+  background: var(--bg-main);
+}
+
+.tab-item.tab-active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.tab-item:active {
+  opacity: 0.9;
 }
 
 /* ----- フッター ----- */

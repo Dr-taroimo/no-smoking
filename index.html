@@ -17,50 +17,77 @@
     <div class="bg-gradient"></div>
     <div class="container">
       <header class="header">
-        <h1 class="title">禁煙日数</h1>
+        <h1 class="title" id="headerTitle">禁煙日数</h1>
       </header>
 
-      <main class="main">
-        <section class="start-date-section">
-          <h2 class="section-label">禁煙開始日</h2>
-          <div class="date-input-wrap">
-            <input type="date" id="quitDate" class="date-input" aria-label="禁煙開始日">
-            <button type="button" id="setDateBtn" class="btn-set">設定する</button>
-          </div>
-          <p class="hint" id="dateHint">日付を選んで「設定する」を押してください。</p>
-        </section>
+      <!-- 入力画面 -->
+      <div id="screen-input" class="screen">
+        <main class="main">
+          <section class="start-date-section">
+            <h2 class="section-label">禁煙開始日</h2>
+            <div class="date-input-wrap">
+              <input type="date" id="quitDate" class="date-input" aria-label="禁煙開始日">
+            </div>
+            <p class="hint" id="dateHint">日付を選んでください。</p>
+          </section>
 
-        <section class="count-section" id="countSection">
-          <div class="days-card">
-            <span class="days-number" id="daysNumber">0</span>
-            <span class="days-unit">日</span>
-          </div>
-          <p class="message" id="message">禁煙継続中！</p>
-          <p class="start-date-display" id="startDateDisplay"></p>
-          <div class="saved-amount-wrap" id="savedAmountWrap">
-            <p class="saved-label">節約した金額</p>
-            <p class="saved-amount" id="savedAmount">0円</p>
-          </div>
-        </section>
+          <section class="price-section">
+            <h2 class="section-label">タバコの値段</h2>
+            <div class="price-inputs">
+              <label class="price-row">
+                <span class="price-label">1箱の値段（円）</span>
+                <input type="number" id="packPrice" class="price-input" min="0" step="1" placeholder="例：550" inputmode="numeric" aria-label="1箱の値段">
+              </label>
+              <label class="price-row">
+                <span class="price-label">1日あたりの本数（本）</span>
+                <input type="number" id="cigarettesPerDay" class="price-input" min="0" step="1" placeholder="例：20" inputmode="numeric" aria-label="1日あたりの本数">
+              </label>
+            </div>
+            <p class="hint">※1箱＝20本で計算します。</p>
+          </section>
 
-        <section class="price-section">
-          <div class="price-inputs">
-            <label class="price-row">
-              <span class="price-label">1箱の値段（円）</span>
-              <input type="number" id="packPrice" class="price-input" min="0" step="1" placeholder="例：550" inputmode="numeric" aria-label="1箱の値段">
+          <section class="target-section">
+            <h2 class="section-label">目標禁煙日数</h2>
+            <label class="target-row">
+              <span class="price-label">目標日数（日）</span>
+              <input type="number" id="targetDays" class="price-input" min="1" step="1" placeholder="例：100" inputmode="numeric" aria-label="目標日数">
             </label>
-            <label class="price-row">
-              <span class="price-label">1日あたりの本数（本）</span>
-              <input type="number" id="cigarettesPerDay" class="price-input" min="0" step="1" placeholder="例：20" inputmode="numeric" aria-label="1日あたりの本数">
-            </label>
-          </div>
-          <p class="hint">※1箱＝20本で計算します。入力すると節約額が自動で表示されます</p>
-        </section>
-      </main>
+          </section>
 
-      <footer class="footer">
-        <p>禁煙開始日を設定すると経過日数が表示されます</p>
-      </footer>
+          <div class="card-actions card-actions-single">
+            <button type="button" id="setAllBtn" class="btn-set">設定する</button>
+            <p class="hint" id="setAllHint"></p>
+          </div>
+        </main>
+      </div>
+
+      <!-- 表示画面 -->
+      <div id="screen-display" class="screen screen-active">
+        <main class="main">
+          <section class="count-section" id="countSection">
+            <div class="days-card">
+              <span class="days-number" id="daysNumber">0</span>
+              <span class="days-unit">日</span>
+            </div>
+            <p class="message" id="message">禁煙継続中！</p>
+            <p class="start-date-display" id="startDateDisplay"></p>
+            <div class="target-left-wrap" id="targetLeftWrap">
+              <p class="target-left-label" id="targetLeftLabel">目標まであと</p>
+              <p class="target-left-days" id="targetLeftDays">—</p>
+            </div>
+            <div class="saved-amount-wrap" id="savedAmountWrap">
+              <p class="saved-label">節約した金額</p>
+              <p class="saved-amount" id="savedAmount">0円</p>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <!-- 下部タブ -->
+      <nav class="tab-bar">
+        <button type="button" class="tab-item" id="tab-input" aria-pressed="false">データ入力</button>
+        <button type="button" class="tab-item tab-active" id="tab-display" aria-pressed="true">結果表示</button>
+      </nav>
     </div>
   </div>
   <script src="script.js"></script>
