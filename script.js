@@ -5,7 +5,8 @@
 
 const STORAGE_KEY_QUIT = 'kinen_quit_date';
 const STORAGE_KEY_PACK_PRICE = 'kinen_pack_price';
-const STORAGE_KEY_PACKS_PER_DAY = 'kinen_packs_per_day';
+const STORAGE_KEY_CIGARETTES_PER_DAY = 'kinen_cigarettes_per_day';
+const CIGARETTES_PER_PACK = 20; // 1箱＝20本で内部計算
 
 const quitDateInput = document.getElementById('quitDate');
 const setDateBtn = document.getElementById('setDateBtn');
@@ -17,7 +18,7 @@ const startDateDisplay = document.getElementById('startDateDisplay');
 const savedAmountEl = document.getElementById('savedAmount');
 const savedAmountWrap = document.getElementById('savedAmountWrap');
 const packPriceInput = document.getElementById('packPrice');
-const packsPerDayInput = document.getElementById('packsPerDay');
+const cigarettesPerDayInput = document.getElementById('cigarettesPerDay');
 
 /**
  * 今日の日付を YYYY-MM-DD で返す
@@ -54,7 +55,7 @@ function formatDateDisplay(dateStr) {
 }
 
 /**
- * 節約額を計算して表示（日数 × 1箱の値段 × 1日の箱数）
+ * 節約額を計算して表示（1箱＝20本で換算し、日数 × 1箱の値段 × (1日の本数／20)）
  */
 function updateSavedAmount() {
   const saved = localStorage.getItem(STORAGE_KEY_QUIT);
@@ -62,12 +63,13 @@ function updateSavedAmount() {
   const days = getDaysSinceQuit(saved);
   if (days < 0) return;
   const price = parseFloat(packPriceInput.value) || 0;
-  const packs = parseFloat(packsPerDayInput.value) || 0;
-  if (price <= 0 || packs <= 0) {
+  const cigarettes = parseFloat(cigarettesPerDayInput.value) || 0;
+  if (price <= 0 || cigarettes <= 0) {
     savedAmountWrap.classList.add('hidden');
     return;
   }
-  const savedYen = Math.floor(days * price * packs);
+  const packsPerDay = cigarettes / CIGARETTES_PER_PACK;
+  const savedYen = Math.floor(days * price * packsPerDay);
   savedAmountEl.textContent = savedYen.toLocaleString() + '円';
   savedAmountWrap.classList.remove('hidden');
 }
@@ -112,24 +114,24 @@ function setQuitDate() {
 }
 
 /**
- * タバコの値段を保存して節約額を更新
+ * タバコの値段・本数を保存して節約額を更新
  */
 function savePriceAndUpdate() {
   const price = packPriceInput.value.trim();
-  const packs = packsPerDayInput.value.trim();
+  const cigarettes = cigarettesPerDayInput.value.trim();
   if (price !== '') localStorage.setItem(STORAGE_KEY_PACK_PRICE, price);
-  if (packs !== '') localStorage.setItem(STORAGE_KEY_PACKS_PER_DAY, packs);
+  if (cigarettes !== '') localStorage.setItem(STORAGE_KEY_CIGARETTES_PER_DAY, cigarettes);
   updateSavedAmount();
 }
 
 // 初期表示
 quitDateInput.setAttribute('max', todayString());
 packPriceInput.value = localStorage.getItem(STORAGE_KEY_PACK_PRICE) || '';
-packsPerDayInput.value = localStorage.getItem(STORAGE_KEY_PACKS_PER_DAY) || '';
+cigarettesPerDayInput.value = localStorage.getItem(STORAGE_KEY_CIGARETTES_PER_DAY) || '';
 loadAndUpdate();
 
 setDateBtn.addEventListener('click', setQuitDate);
 packPriceInput.addEventListener('input', savePriceAndUpdate);
 packPriceInput.addEventListener('blur', savePriceAndUpdate);
-packsPerDayInput.addEventListener('input', savePriceAndUpdate);
-packsPerDayInput.addEventListener('blur', savePriceAndUpdate);
+cigarettesPerDayInput.addEventListener('input', savePriceAndUpdate);
+cigarettesPerDayInput.addEventListener('blur', savePriceAndUpdate);

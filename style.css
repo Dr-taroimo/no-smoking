@@ -233,7 +233,7 @@ body {
   }
 }
 
-/* ----- 禁煙開始日設定セクション ----- */
+/* ----- 禁煙開始日設定セクション（ページ上部） ----- */
 .start-date-section {
   background: var(--bg-card);
   border: 1px solid var(--border);
