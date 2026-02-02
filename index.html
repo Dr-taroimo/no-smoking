@@ -65,16 +65,23 @@
       <div id="screen-display" class="screen screen-active">
         <main class="main">
           <section class="count-section" id="countSection">
-            <div class="days-card">
-              <span class="days-number" id="daysNumber">0</span>
-              <span class="days-unit">日</span>
+            <div class="circle-display">
+              <div class="circle-ring" id="circleRing">
+                <div class="circle-inner">
+                  <p class="circle-current-label">現在の経過日数</p>
+                  <div class="days-card">
+                    <span class="days-number" id="daysNumber">0</span>
+                    <span class="days-unit">日</span>
+                  </div>
+                </div>
+              </div>
+              <div class="circle-target-outer" id="targetLeftWrap">
+                <p class="circle-target-label" id="targetLeftLabel">目標</p>
+                <p class="circle-target-days" id="targetLeftDays">—日</p>
+              </div>
             </div>
             <p class="message" id="message">禁煙継続中！</p>
             <p class="start-date-display" id="startDateDisplay"></p>
-            <div class="target-left-wrap" id="targetLeftWrap">
-              <p class="target-left-label" id="targetLeftLabel">目標まであと</p>
-              <p class="target-left-days" id="targetLeftDays">—</p>
-            </div>
             <div class="saved-amount-wrap" id="savedAmountWrap">
               <p class="saved-label">節約した金額</p>
               <p class="saved-amount" id="savedAmount">0円</p>

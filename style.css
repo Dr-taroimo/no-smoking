@@ -122,6 +122,84 @@ body {
   display: none;
 }
 
+/* ----- 円形デザイン（内側＝現在の経過日数、外側＝目標） ----- */
+.circle-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.circle-ring {
+  --progress: 0;
+  width: min(260px, 72vw);
+  height: min(260px, 72vw);
+  border-radius: 50%;
+  padding: 14px;
+  background: conic-gradient(
+    #34d399 0deg,
+    #06b6d4 calc(var(--progress) * 360deg),
+    #374151 calc(var(--progress) * 360deg) 360deg
+  );
+  box-shadow:
+    0 0 0 2px rgba(55, 65, 81, 0.6),
+    0 0 24px rgba(52, 211, 153, 0.15);
+  flex-shrink: 0;
+}
+
+.circle-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.circle-current-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.circle-inner .days-card {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.circle-target-outer {
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  min-width: 140px;
+}
+
+.circle-target-outer.hidden {
+  display: none;
+}
+
+.circle-target-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.circle-target-days {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
 .days-card {
   display: flex;
   align-items: baseline;
@@ -174,32 +252,6 @@ body {
   flex-direction: column;
   gap: 0.35rem;
   margin-bottom: 0.6rem;
-}
-
-/* ----- 目標まであと〇〇日（表示画面） ----- */
-.target-left-wrap {
-  margin-top: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
-.target-left-wrap.hidden {
-  display: none;
-}
-
-.target-left-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 0.25rem;
-}
-
-.target-left-days {
-  font-size: clamp(1.5rem, 5vw, 1.75rem);
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: -0.02em;
 }
 
 /* ----- 節約額表示 ----- */

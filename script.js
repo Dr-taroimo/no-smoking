@@ -31,6 +31,7 @@ const headerTitle = document.getElementById('headerTitle');
 const targetLeftWrap = document.getElementById('targetLeftWrap');
 const targetLeftLabel = document.getElementById('targetLeftLabel');
 const targetLeftDays = document.getElementById('targetLeftDays');
+const circleRing = document.getElementById('circleRing');
 
 /**
  * 今日の日付を YYYY-MM-DD で返す
@@ -128,16 +129,18 @@ function updateTargetLeft(days) {
   const target = parseInt(targetStr, 10);
   if (!targetStr || isNaN(target) || target < 1) {
     targetLeftWrap.classList.add('hidden');
+    circleRing.style.setProperty('--progress', '0');
     return;
   }
   targetLeftWrap.classList.remove('hidden');
+  targetLeftLabel.textContent = '目標' + target + '日';
   if (days >= target) {
-    targetLeftLabel.textContent = '目標達成！';
-    targetLeftDays.textContent = target + '日';
+    targetLeftDays.textContent = '達成！';
   } else {
-    targetLeftLabel.textContent = '目標まであと';
-    targetLeftDays.textContent = (target - days) + '日';
+    targetLeftDays.textContent = 'あと' + (target - days) + '日';
   }
+  var p = Math.min(1, days / target);
+  circleRing.style.setProperty('--progress', p);
 }
 
 /**
