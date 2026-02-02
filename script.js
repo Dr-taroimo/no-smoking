@@ -1,9 +1,11 @@
 /**
  * 禁煙日数カウント
- * 禁煙開始日を設定し、経過日数を表示する
+ * 禁煙開始日を設定し、経過日数と節約額を表示する
  */
 
-const STORAGE_KEY = 'kinen_quit_date';
+const STORAGE_KEY_QUIT = 'kinen_quit_date';
+const STORAGE_KEY_PACK_PRICE = 'kinen_pack_price';
+const STORAGE_KEY_PACKS_PER_DAY = 'kinen_packs_per_day';
 
 const quitDateInput = document.getElementById('quitDate');
 const setDateBtn = document.getElementById('setDateBtn');
@@ -12,6 +14,10 @@ const countSection = document.getElementById('countSection');
 const daysNumber = document.getElementById('daysNumber');
 const messageEl = document.getElementById('message');
 const startDateDisplay = document.getElementById('startDateDisplay');
+const savedAmountEl = document.getElementById('savedAmount');
+const savedAmountWrap = document.getElementById('savedAmountWrap');
+const packPriceInput = document.getElementById('packPrice');
+const packsPerDayInput = document.getElementById('packsPerDay');
 
 /**
  * 今日の日付を YYYY-MM-DD で返す
@@ -48,10 +54,29 @@ function formatDateDisplay(dateStr) {
 }
 
 /**
+ * 節約額を計算して表示（日数 × 1箱の値段 × 1日の箱数）
+ */
+function updateSavedAmount() {
+  const saved = localStorage.getItem(STORAGE_KEY_QUIT);
+  if (!saved) return;
+  const days = getDaysSinceQuit(saved);
+  if (days < 0) return;
+  const price = parseFloat(packPriceInput.value) || 0;
+  const packs = parseFloat(packsPerDayInput.value) || 0;
+  if (price <= 0 || packs <= 0) {
+    savedAmountWrap.classList.add('hidden');
+    return;
+  }
+  const savedYen = Math.floor(days * price * packs);
+  savedAmountEl.textContent = savedYen.toLocaleString() + '円';
+  savedAmountWrap.classList.remove('hidden');
+}
+
+/**
  * 保存されている禁煙開始日を読み込み、表示を更新
  */
 function loadAndUpdate() {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  const saved = localStorage.getItem(STORAGE_KEY_QUIT);
   if (saved) {
     quitDateInput.value = saved;
     const days = getDaysSinceQuit(saved);
@@ -65,6 +90,7 @@ function loadAndUpdate() {
       messageEl.textContent = '禁煙継続中！';
     }
     countSection.classList.remove('hidden');
+    updateSavedAmount();
   } else {
     quitDateInput.value = todayString();
     countSection.classList.add('hidden');
@@ -80,13 +106,30 @@ function setQuitDate() {
     dateHint.textContent = '日付を選んでから「設定する」を押してください。';
     return;
   }
-  localStorage.setItem(STORAGE_KEY, value);
+  localStorage.setItem(STORAGE_KEY_QUIT, value);
   dateHint.textContent = '設定しました。';
   loadAndUpdate();
 }
 
+/**
+ * タバコの値段を保存して節約額を更新
+ */
+function savePriceAndUpdate() {
+  const price = packPriceInput.value.trim();
+  const packs = packsPerDayInput.value.trim();
+  if (price !== '') localStorage.setItem(STORAGE_KEY_PACK_PRICE, price);
+  if (packs !== '') localStorage.setItem(STORAGE_KEY_PACKS_PER_DAY, packs);
+  updateSavedAmount();
+}
+
 // 初期表示
 quitDateInput.setAttribute('max', todayString());
+packPriceInput.value = localStorage.getItem(STORAGE_KEY_PACK_PRICE) || '';
+packsPerDayInput.value = localStorage.getItem(STORAGE_KEY_PACKS_PER_DAY) || '';
 loadAndUpdate();
 
 setDateBtn.addEventListener('click', setQuitDate);
+packPriceInput.addEventListener('input', savePriceAndUpdate);
+packPriceInput.addEventListener('blur', savePriceAndUpdate);
+packsPerDayInput.addEventListener('input', savePriceAndUpdate);
+packsPerDayInput.addEventListener('blur', savePriceAndUpdate);

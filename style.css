@@ -85,15 +85,6 @@ body {
   font-weight: 800;
   letter-spacing: 0.02em;
   color: var(--text);
-  margin-bottom: 0.25rem;
-}
-
-.subtitle {
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-transform: uppercase;
 }
 
 /* ----- メイン（日数カード → 設定） ----- */
@@ -155,6 +146,91 @@ body {
   font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
+}
+
+/* ----- 節約額表示 ----- */
+.saved-amount-wrap {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.saved-amount-wrap.hidden {
+  display: none;
+}
+
+.saved-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.saved-amount {
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+/* ----- タバコの値段入力 ----- */
+.price-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 5vw, 1.5rem);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.price-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.price-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.price-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.price-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.price-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+@media (max-width: 480px) {
+  .price-input {
+    min-height: 52px;
+    font-size: 16px;
+  }
 }
 
 /* ----- 禁煙開始日設定セクション ----- */
@@ -285,5 +361,15 @@ body {
     width: auto;
     min-width: 120px;
     min-height: 48px;
+  }
+
+  .price-inputs {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .price-row {
+    flex: 1;
+    min-width: 140px;
   }
 }
