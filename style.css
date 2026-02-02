@@ -1,0 +1,289 @@
+/* 禁煙日数カウント - スマホ向け・ダークベースおしゃれデザイン */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-deep: #0a0e14;
+  --bg-main: #0d1117;
+  --bg-card: #161b22;
+  --bg-card-hover: #1c2128;
+  --border: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-soft: rgba(88, 166, 255, 0.15);
+  --success: #3fb950;
+  --success-glow: rgba(63, 185, 80, 0.25);
+  --safe-top: env(safe-area-inset-top, 0);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
+  --safe-left: env(safe-area-inset-left, 0);
+  --safe-right: env(safe-area-inset-right, 0);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* アプリ全体ラッパー：スマホ全画面・セーフエリア対応 */
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+  position: relative;
+}
+
+/* 背景グラデーション（奥行き・おしゃれ感） */
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(88, 166, 255, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(63, 185, 80, 0.06), transparent),
+    radial-gradient(ellipse 50% 30% at 10% 80%, rgba(88, 166, 255, 0.05), transparent);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  width: 100%;
+  padding: clamp(1rem, 4vw, 1.5rem);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ----- ヘッダー ----- */
+.header {
+  text-align: center;
+  padding: clamp(1.5rem, 6vw, 2.5rem) 0;
+}
+
+.title {
+  font-size: clamp(1.5rem, 5.5vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ----- メイン（日数カード → 設定） ----- */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 5vw, 1.75rem);
+  padding-bottom: 1rem;
+}
+
+/* ----- 日数表示セクション ----- */
+.count-section {
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: clamp(1.5rem, 6vw, 2rem) 1.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.count-section.hidden {
+  display: none;
+}
+
+.days-card {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.2em;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.days-number {
+  font-size: clamp(3.5rem, 18vw, 5rem);
+  font-weight: 800;
+  color: var(--success);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 40px var(--success-glow);
+}
+
+.days-unit {
+  font-size: clamp(1.25rem, 5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-left: 0.1em;
+}
+
+.message {
+  font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.start-date-display {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ----- 禁煙開始日設定セクション ----- */
+.start-date-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 5vw, 1.5rem);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.section-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.date-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.date-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  color: var(--text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* iOSで日付ピッカーを押しやすく */
+@media (max-width: 480px) {
+  .date-input {
+    min-height: 52px;
+    font-size: 16px; /* iOS zoom防止 */
+  }
+}
+
+.btn-set {
+  width: 100%;
+  min-height: 52px;
+  padding: 0.9rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, var(--accent) 0%, #4a9eff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(88, 166, 255, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-set:hover {
+  box-shadow: 0 6px 20px rgba(88, 166, 255, 0.4);
+}
+
+.btn-set:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 10px rgba(88, 166, 255, 0.3);
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ----- フッター ----- */
+.footer {
+  margin-top: auto;
+  padding: 1rem 0 max(1rem, var(--safe-bottom));
+  text-align: center;
+}
+
+.footer p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ----- タブレット・横持ち（オプション） ----- */
+@media (min-width: 500px) {
+  .container {
+    max-width: 420px;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px var(--border);
+    border-radius: 1.5rem;
+    min-height: auto;
+    padding-bottom: 2rem;
+  }
+
+  .app {
+    background: var(--bg-main);
+  }
+
+  .date-input-wrap {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .date-input {
+    flex: 1;
+    min-height: 48px;
+  }
+
+  .btn-set {
+    width: auto;
+    min-width: 120px;
+    min-height: 48px;
+  }
+}
